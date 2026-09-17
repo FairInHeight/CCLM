@@ -4,7 +4,7 @@ CCLM is a C++23 compiler project for a new web language that combines HTML-style
 
 The project is being built incrementally as a compiler frontend first, then a semantic analyzer, and finally a code generator. The current frontend can tokenize CCLM, validate its grammar, construct an ordered AST, and convert a growing subset of CSS-style values into semantic value nodes.
 
-The language is still being designed. `test.csam` is the current de facto grammar and integration reference.
+The language is still being designed. `test.cclm` is the current de facto grammar and integration reference.
 
 ## Project goals
 
@@ -117,10 +117,10 @@ The lexer remains deliberately lexical. The parser owns grammar and the first se
 │   ├── test_parser.cpp
 │   ├── test_value_parser.cpp
 │   └── README.md
-├── test.csam
+├── test.cclm
 ├── test.css
 ├── test.html
-├── bad.csam
+├── bad.cclm
 ├── Makefile
 └── README.md
 ```
@@ -131,7 +131,7 @@ The lexer remains deliberately lexical. The parser owns grammar and the first se
 
 Every CCLM file must begin with exactly one `:root` block:
 
-```csam
+```cclm
 :root
 {
 }
@@ -143,7 +143,7 @@ There is no colon syntax on ordinary tags. `:root` is special and is the require
 
 A tag is an identifier followed by either `{` or `<`.
 
-```csam
+```cclm
 header
 {
 }
@@ -162,7 +162,7 @@ Tags may be nested to arbitrary depth.
 
 Angle brackets `< >` delimit tag content. Content is currently retained as tokens in a `ContentNode`; strings are the primary content form.
 
-```csam
+```cclm
 p
 <
     "This is my first C-SAM website.\n"
@@ -176,7 +176,7 @@ Using `< >` distinguishes tag content from CSS-style declarations and leaves roo
 
 CSS-style properties use a colon and semicolon:
 
-```csam
+```cclm
 body
 {
     font-family: Arial, sans-serif;
@@ -187,7 +187,7 @@ body
 
 Property values are passed through the semantic value parser.
 
-```csam
+```cclm
 margin: 40px auto;
 opacity: 0.5;
 width: 50%;
@@ -200,7 +200,7 @@ The parser currently describes the shape of these values. It does not yet decide
 
 Variables use a C-like declaration form:
 
-```csam
+```cclm
 var mycolor = #8800ff;
 ```
 
@@ -251,13 +251,13 @@ Numeric text is preserved as its source representation instead of immediately co
 
 ### Dimensions and adjacency
 
-```csam
+```cclm
 width: 10px;
 ```
 
 is one dimension value.
 
-```csam
+```cclm
 width: 10 px;
 ```
 
@@ -265,7 +265,7 @@ is a number followed by a raw value rather than being silently combined.
 
 ### Percentages
 
-```csam
+```cclm
 width: 50%;
 margin: -25%;
 ```
@@ -282,7 +282,7 @@ Values such as `auto`, `white`, and `mycolor` can currently remain raw. A raw va
 
 Function calls are represented by `FunctionValueNode`.
 
-```csam
+```cclm
 color: rgb(255, 0, 0);
 width: calc(100% - 20px);
 transform: scale(2, translate(10px, 20px));
@@ -473,7 +473,7 @@ Properties and variables store semantic `ValueNode` objects rather than only raw
 
 For example:
 
-```csam
+```cclm
 padding: 30px;
 margin: 40px auto;
 ```
@@ -496,7 +496,7 @@ This lets later compiler stages operate on structured meaning rather than recons
 Parser errors use source locations whenever possible:
 
 ```text
-Parser: Expected ':' after property name at test.csam:1:15
+Parser: Expected ':' after property name at test.cclm:1:15
 ```
 
 `consume()` and `unexpected()` provide centralized parser error construction.
@@ -507,18 +507,18 @@ The diagnostic system is intentionally lightweight for now. A structured diagnos
 
 ## Debug mode
 
-Debug output is controlled by the global `csam_debug` flag and enabled with `-d`.
+Debug output is controlled by the global `cclm_debug` flag and enabled with `-d`.
 
 Normal successful compilation is intentionally quiet:
 
 ```text
-./csam test.csam
+./cclm test.cclm
 ```
 
 Debug mode exposes the frontend state:
 
 ```text
-./csam -d test.csam
+./cclm -d test.cclm
 ```
 
 Current debug output includes:
@@ -533,10 +533,10 @@ Current debug output includes:
 The compiler accepts one or more source paths with an optional flags argument.
 
 ```text
-./csam test.csam
-./csam -d test.csam
-./csam test.csam other.csam
-./csam -d test.csam other.csam
+./cclm test.cclm
+./cclm -d test.cclm
+./cclm test.cclm other.cclm
+./cclm -d test.cclm other.cclm
 ```
 
 Currently supported flag:
@@ -557,7 +557,7 @@ The Makefile provides explicit compiler, test, cleanup, and automation targets.
 make
 ```
 
-Builds `csam` from all compiler source files.
+Builds `cclm` from all compiler source files.
 
 ### Test
 
@@ -607,7 +607,7 @@ The target performs:
 ```text
 make clean
 make
-./csam -d test.csam
+./cclm -d test.cclm
 make test
 ```
 
@@ -655,11 +655,11 @@ The tests intentionally cover both positive and negative paths so semantic analy
 
 ## Integration fixture
 
-`test.csam` is the current valid end-to-end frontend fixture. It demonstrates variables, nested tags, tag content, CSS-style properties, colors, identifiers, dimensions, multiple property values, and escaped strings.
+`test.cclm` is the current valid end-to-end frontend fixture. It demonstrates variables, nested tags, tag content, CSS-style properties, colors, identifiers, dimensions, multiple property values, and escaped strings.
 
 The repository also contains `test.html` and `test.css` reference outputs/examples corresponding to the current fixture, providing a useful target for future code generation.
 
-`bad.csam` remains a deliberately malformed fixture for parser/error testing.
+`bad.cclm` remains a deliberately malformed fixture for parser/error testing.
 
 ## Recent frontend progress
 
@@ -689,7 +689,7 @@ Parser diagnostics now consistently include filepath, line, and column informati
 
 The Makefile was brought into sync with the value parser and its fourth test suite. It now provides `make`, `make test`, `make clean`, `make clean-test`, and `make auto`.
 
-`make auto` stops on the first failure. The full pipeline has been verified successfully through a clean build, debug compilation/run of `test.csam`, and all four regression suites.
+`make auto` stops on the first failure. The full pipeline has been verified successfully through a clean build, debug compilation/run of `test.cclm`, and all four regression suites.
 
 ## Current design principles
 
