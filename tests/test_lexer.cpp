@@ -7,7 +7,7 @@
 
 static std::vector<Token> lex(const std::string& source)
 {
-    Lexer lexer(source, "test.csam");
+    Lexer lexer(source, "test.cclm");
     return lexer.tokenize();
 }
 
