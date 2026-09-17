@@ -1,14 +1,14 @@
-# C SAM
+# CCLM
 
-C SAM is a C++23 compiler project for a new web language that combines HTML-style document structure and CSS styling into a single source file.
+CCLM is a C++23 compiler project for a new web language that combines HTML-style document structure and CSS styling into a single source file.
 
-The project is being built incrementally as a compiler frontend first, then a semantic analyzer, and finally a code generator. The current frontend can tokenize C SAM, validate its grammar, construct an ordered AST, and convert a growing subset of CSS-style values into semantic value nodes.
+The project is being built incrementally as a compiler frontend first, then a semantic analyzer, and finally a code generator. The current frontend can tokenize CCLM, validate its grammar, construct an ordered AST, and convert a growing subset of CSS-style values into semantic value nodes.
 
 The language is still being designed. `test.csam` is the current de facto grammar and integration reference.
 
 ## Project goals
 
-C SAM is designed to:
+CCLM is designed to:
 
 - Combine HTML and CSS into one source file per page.
 - Be immediately understandable to people familiar with web development.
@@ -16,7 +16,7 @@ C SAM is designed to:
 - Keep syntax small, predictable, and easy to parse.
 - Preserve source locations throughout the compiler for clear diagnostics.
 - Keep compiler filesystem handling platform-independent with `std::filesystem`.
-- Eventually compile one C SAM source into generated HTML and CSS.
+- Eventually compile one CCLM source into generated HTML and CSS.
 
 ## Current status
 
@@ -64,7 +64,7 @@ Not implemented yet:
 ## Compiler pipeline
 
 ```text
-C SAM source
+CCLM source
      |
      v
    Lexer
@@ -125,11 +125,11 @@ The lexer remains deliberately lexical. The parser owns grammar and the first se
 └── README.md
 ```
 
-## C SAM syntax
+## CCLM syntax
 
 ### Root
 
-Every C SAM file must begin with exactly one `:root` block:
+Every CCLM file must begin with exactly one `:root` block:
 
 ```csam
 :root
@@ -738,7 +738,7 @@ Initial semantic-analysis goals:
 - Resolve variable references.
 - Distinguish literals, keywords, identifiers, and references where appropriate.
 - Validate semantic value relationships.
-- Establish the initial C SAM semantic/type model.
+- Establish the initial CCLM semantic/type model.
 - Produce clearer semantic diagnostics.
 
 ### Later: code generation
@@ -777,7 +777,7 @@ The current Makefile uses Unix shell commands and `g++`. Development on native W
 
 ## Development philosophy
 
-C SAM is being built incrementally. Each compiler layer should have a clear responsibility and a regression suite before the next layer becomes substantial.
+CCLM is being built incrementally. Each compiler layer should have a clear responsibility and a regression suite before the next layer becomes substantial.
 
 The current priority is:
 
