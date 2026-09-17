@@ -10,7 +10,7 @@
 
 static Token token(TokenType type, const std::string& value = "")
 {
-    return Token{type, value, {std::filesystem::path("test.csam"), 1, 1}};
+    return Token{type, value, {std::filesystem::path("test.cclm"), 1, 1}};
 }
 
 int main()
