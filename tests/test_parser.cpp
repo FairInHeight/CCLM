@@ -11,7 +11,7 @@
 
 static std::unique_ptr<RootNode> parse(const std::string& source)
 {
-    Lexer lexer(source, "test.csam");
+    Lexer lexer(source, "test.cclm");
     const auto tokens = lexer.tokenize();
     Parser parser(tokens);
     return parser.parse();
