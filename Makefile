@@ -59,5 +59,5 @@ clean:
 auto:
 	$(MAKE) clean && \
 	$(MAKE) && \
-	./$(TARGET) -d test.csam && \
+	./$(TARGET) -d test.cclm && \
 	$(MAKE) test
